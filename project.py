@@ -53,8 +53,13 @@ while True:
 
     elif choice == "5":
         delete_number=int(input("Enter expense number to delete:  "))
-        index = delete_number-1
-        expenses.pop(index)
+
+        if 1 <= delete_number <=len(expenses):
+            index = delete_number-1
+            expenses.pop(index)
+            print("Expense deleted successfullly!")
+        else:
+            print("Enter valid number to delete")
        
     elif choice== "6":
          print("Goodbye!")
