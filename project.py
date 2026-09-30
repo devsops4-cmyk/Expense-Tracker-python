@@ -5,7 +5,9 @@ while True:
     print("1. Add expense")
     print("2. View expenses")
     print("3. Show total")
-    print("4. Exit")
+    print("4. Show spending category: ")
+    print("5. Delete expense: ")
+    print("6. Exit")
 
     choice = input("Choose an option: ")
 
@@ -27,8 +29,8 @@ while True:
         if len(expenses)==0:
              print("No expense recorded")
         else:
-            for ex in expenses:
-                print(ex["amount"], ex["category"], ex["description"])
+            for index, ex in enumerate(expenses, start=1):
+                print(index, ex["amount"], ex["category"], ex["description"])
 
     elif choice == "3":
         total =0
@@ -38,11 +40,25 @@ while True:
 
         print(total)
 
-
-
     elif choice == "4":
-        print("Goodbye!")
-        break
+        category =int(input("Enter category: "))
+        total = 0
+        for ex in expenses:
+             if ex["category"]== category:
+                total+=ex["amount"]
+
+        print("Total spent on category: ", total)
+
+
+
+    elif choice == "5":
+        delete_number=int(input("Enter expense number to delete:  "))
+        index = delete_number-1
+        expenses.pop(index)
+       
+    elif choice== "6":
+         print("Goodbye!")
+         break
     else:
         
         print("Invalid choice")
