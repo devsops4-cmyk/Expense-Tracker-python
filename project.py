@@ -16,37 +16,20 @@ while True:
         category = input("Enter category: ")
         description= input("Enter description:  ")
 
-        expense = {
-            "amount": amount,
-            "category": category,
-            "description": description
-        }
+        expense = create_expense(amount, category, description)
         expenses.append(expense)
         print("Expense added successfully!")
         
     elif choice == "2":
-        
-        if len(expenses)==0:
-             print("No expense recorded")
-        else:
-            for index, ex in enumerate(expenses, start=1):
-                print(index, ex["amount"], ex["category"], ex["description"])
+        view_expenses(expenses)
 
     elif choice == "3":
-        total =0
-
-        for ex in expenses:
-            total += ex["amount"]
-
+        total = calculate_total(expenses)
         print(total)
 
     elif choice == "4":
-        category =int(input("Enter category: "))
-        total = 0
-        for ex in expenses:
-             if ex["category"]== category:
-                total+=ex["amount"]
-
+        category =(input("Enter category: "))
+        total =calculate_category_total(expenses, category)
         print("Total spent on category: ", total)
 
 
@@ -67,3 +50,36 @@ while True:
     else:
         
         print("Invalid choice")
+
+
+    def calculate_total(expenses):
+        for ex in expenses:
+            total += ex["amount"]
+        
+        return total
+
+    def calculate_category_total(expenses, category):
+        total =0
+
+        for ex in expenses:
+            if ex["category"]== category:
+                total +=ex["amount"]
+        return total
+
+    def create_expense(amount, category, description):
+        expense = {
+            "amount": amount,
+            "category": category,
+            "description": description
+        }
+
+        return expense
+
+    def view_expenses(expenses):
+        if len(expenses)==0:
+            print("No expense recorded")
+        else:
+            for index, ex in enumerate(expenses, start=1):
+                print(index, ex["amount"], ex["category"], ex["description"])
+
+    
