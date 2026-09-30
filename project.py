@@ -50,7 +50,7 @@ while True:
         print("Total spent on category: ", total)
 
 
-# user user to enter value
+
     elif choice == "5":
         delete_number=int(input("Enter expense number to delete:  "))
         index = delete_number-1
