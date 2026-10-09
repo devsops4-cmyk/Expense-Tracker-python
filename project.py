@@ -1,5 +1,4 @@
-expenses = []
-
+import json
 
 def calculate_total(expenses):
         total =0
@@ -9,12 +8,14 @@ def calculate_total(expenses):
         
         return total
 
+
+
 def save_expense(amount, category, description):
      with open("expenses.txt", "a") as file:
          file.write(f"{amount}, {category}, {description}\n")
 
 def calculate_category_total(expenses, category):
-        total =0
+        total = 0
 
         for ex in expenses:
             if ex["category"].lower()== category.lower():
@@ -30,6 +31,33 @@ def create_expense(amount, category, description):
 
         return expense
 
+def load_expenses():
+     expenses = []
+     try:
+          
+        with open("expenses.txt", "r") as file:
+          for line in file:
+               parts = line.strip().split(",")
+
+               amount =float(parts[0])
+               category = parts[1].strip()
+               description = parts[2].strip()
+
+               expense = create_expense(amount, category, description)
+               expenses.append(expense)
+     except FileNotFoundError:
+          print("*****No expenses saved found*****")
+     return expenses
+
+def update_expenses_file(expenses):
+     with open("expenses.txt", "w") as file:
+          for ex in expenses:
+               amount=ex["amount"]
+               category=ex["category"]
+               description=ex["description"]
+               file.write(f"{amount}, {category}, {description}\n")
+
+
 def view_expenses(expenses):
         if len(expenses)==0:
             print("*****No expense recorded*****")
@@ -41,14 +69,37 @@ def delete_expenses(expenses, delete_number):
         if 1 <= delete_number <=len(expenses):
             index = delete_number-1
             expenses.pop(index)
+
+            save_expenses_json(expenses)
+
             print("*******Expense deleted successfully!******")
         else:
             print("Enter valid number to delete")
+
+def save_expenses_json(expenses):
+        with open("expenses.json", "w") as file:
+          json.dump(expenses, file)
+
+def load_expenses_json():
+        try: 
+            with open("expenses.json", "r") as file:
+                expenses = json.load(file)
+
+        except FileNotFoundError:
+             print("No JsonFile to read")
+             expenses = []
+
+        except json.JSONDecodeError:
+             print("Json file is empty or invalid")
+             expenses = []
+        return expenses
+
+          
+
         
     
 
-
-
+expenses =  load_expenses_json()
 
 while True:
     print("\nExpense Tracker")
@@ -93,7 +144,7 @@ while True:
 
         expense = create_expense(amount, category, description)
         expenses.append(expense)
-        save_expense(amount, category, description)
+        save_expenses_json(expenses)
         print("Expense added successfully!")
         
     elif choice == "2":
@@ -151,6 +202,18 @@ while True:
         
         print("*****Invalid choice*****")
 
-   
 
-   
+    while True:
+        print("Would you like to continue?")
+        continue_choice = input("A = Menu, X = Exit: ").strip().lower()
+
+        if continue_choice == "a":
+             break
+        elif continue_choice == "x":
+            break
+        else:
+            print("Invalid choice! Enter A or X.")
+
+    if continue_choice == "x":
+        print("Goodbye!")
+        break
