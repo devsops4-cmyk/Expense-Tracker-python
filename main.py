@@ -50,6 +50,7 @@ while True:
         if len(expenses)==0:
              print("*******No expenses to delete*******")
         else:
+            expense_functions.view_expenses(expenses)
             delete_number = expense_functions.get_valid_delete_number(expenses)
             expense_functions.delete_expenses(expenses, delete_number)
        
@@ -68,3 +69,11 @@ while True:
         print("======{Thank You For Using our Expense Tracker}=====")
         print("*******{Goodbye!}*******")
         break
+
+
+
+    lst = [{"food":"rice"},
+     {"data":200}]
+
+    
+    

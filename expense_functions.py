@@ -1,4 +1,5 @@
 import json
+
 def calculate_total(expenses):
         total =0
 
